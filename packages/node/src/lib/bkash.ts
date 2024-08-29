@@ -30,9 +30,7 @@ export class Bkash extends UnifyFetch {
   }
 
   async getAccessToken() {
-    const [res] = await this.jsonFetch<
-      IBkashAccessTokenResponse | IBkashErrorResponse
-    >(`${this.getApiBaseUrl()}/tokenized/checkout/token/grant`, {
+    const [res] = await this.jsonFetch<IBkashAccessTokenResponse | IBkashErrorResponse>(`${this.getApiBaseUrl()}/tokenized/checkout/token/grant`, {
       method: "POST",
       headers: this.getApiRequestHeaders(),
       body: JSON.stringify({
@@ -40,7 +38,6 @@ export class Bkash extends UnifyFetch {
         app_secret: this.options.app_secret,
       }),
     });
-
     if ("errorMessage" in res) {
       throw new Error(res.errorMessage);
     }
@@ -50,10 +47,7 @@ export class Bkash extends UnifyFetch {
 
   async getCheckoutUrl(options: IBkashCheckoutOptions) {
     const accessToken = await this.getAccessToken();
-
-    const [res] = await this.jsonFetch<
-      IBkashCheckoutResponse | IBkashErrorResponse
-    >(`${this.getApiBaseUrl()}/tokenized/checkout/create`, {
+    const [res] = await this.jsonFetch<IBkashCheckoutResponse | IBkashErrorResponse>(`${this.getApiBaseUrl()}/tokenized/checkout/create`, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -63,7 +57,6 @@ export class Bkash extends UnifyFetch {
       },
       body: JSON.stringify(options),
     });
-
     if ("errorMessage" in res) {
       throw new Error(res.errorMessage);
     }
